@@ -11,9 +11,10 @@ defineProps<Props>();
 <template>
   <section
     :title="task.createdAt.toLocaleDateString()"
-    class="task bg-white p-2 mb-2 rounded-sm shadow-sm max-w-[300px]"
+    class="task bg-white p-2 mb-2 rounded-sm shadow-sm max-w-[300px] flex"
   >
     <span>
+      <DragHandle />
       {{ task.title }}
     </span>
   </section>

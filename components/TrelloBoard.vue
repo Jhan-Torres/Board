@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Column } from "~/types";
+import { type Column, type Task } from "~/types";
 import { nanoid } from "nanoid";
 import draggable from "vuedraggable";
 
@@ -49,7 +49,7 @@ const columns = ref<Column[]>([
 <template>
   <draggable
     v-model="columns"
-    class="flex gap-10 overflow-x-auto items-start"
+    class="flex gap-5 overflow-x-auto items-start"
     group="columns"
     item-key="uuid"
     animation="300"
@@ -58,16 +58,22 @@ const columns = ref<Column[]>([
     <template #item="{ element }: { element: Column }">
       <section class="column bg-gray-200 px-4 py-2 rounded-md min-w-[300px]">
         <header class="flex gap-1">
-          <span class="drag-handler hover:cursor-grab">⣿</span>
+          <DragHandle />
           <h2 class="text-lg font-semibold mb-3">{{ element.title }}</h2>
         </header>
-        <TrelloBoardTask
-          v-for="task in element.tasks"
-          :key="task.uuid"
-          :task="task"
-        />
+        <draggable
+          v-model="element.tasks"
+          group="tasks"
+          item-key="uuid"
+          animation="300"
+          handle=".drag-handler"
+        >
+          <template #item="{ element: task }: { element: Task }">
+            <TrelloBoardTask :task="task" />
+          </template>
+        </draggable>
         <footer>
-          <button class="w-full bg-blue-300 py-1 rounded-sm">
+          <button class="w-full bg-blue-400 py-1 rounded-sm">
             <span class="font-semibold">+ Add task</span>
           </button>
         </footer>
