@@ -44,6 +44,8 @@ const columns = ref<Column[]>([
     ],
   },
 ]);
+
+const alt = useKeyModifier("Alt");
 </script>
 
 <template>
@@ -63,13 +65,15 @@ const columns = ref<Column[]>([
         </header>
         <draggable
           v-model="element.tasks"
-          group="tasks"
+          :group="{ name: 'tasks', pull: alt ? 'clone' : true }"
           item-key="uuid"
           animation="300"
           handle=".drag-handler"
         >
           <template #item="{ element: task }: { element: Task }">
-            <TrelloBoardTask :task="task" />
+            <div>
+              <TrelloBoardTask :task="task" />
+            </div>
           </template>
         </draggable>
         <footer>
