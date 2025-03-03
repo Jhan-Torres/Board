@@ -72,7 +72,14 @@ const alt = useKeyModifier("Alt");
         >
           <template #item="{ element: task }: { element: Task }">
             <div>
-              <TrelloBoardTask :task="task" />
+              <TrelloBoardTask
+                :task="task"
+                @delete="
+                  element.tasks = element.tasks.filter(
+                    (t) => t.uuid !== task.uuid
+                  )
+                "
+              />
             </div>
           </template>
         </draggable>
