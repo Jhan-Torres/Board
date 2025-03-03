@@ -3,47 +3,76 @@ import { type Column, type Task } from "~/types";
 import { nanoid } from "nanoid";
 import draggable from "vuedraggable";
 
-const columns = ref<Column[]>([
+const columns = useLocalStorage<Column[]>(
+  "trellBoard",
+  [
+    {
+      uuid: nanoid(),
+      title: "Create landing page",
+      tasks: [
+        { uuid: nanoid(), title: "Create hero section", createdAt: new Date() },
+        {
+          uuid: nanoid(),
+          title: "Create call to action",
+          createdAt: new Date(),
+        },
+        {
+          uuid: nanoid(),
+          title: "Create marketing copy",
+          createdAt: new Date(),
+        },
+      ],
+    },
+    {
+      uuid: nanoid(),
+      title: "Create marketing strategy",
+      tasks: [
+        { uuid: nanoid(), title: "Create new strategy", createdAt: new Date() },
+        {
+          uuid: nanoid(),
+          title: "Create call to action",
+          createdAt: new Date(),
+        },
+        { uuid: nanoid(), title: "Create new feature", createdAt: new Date() },
+      ],
+    },
+    {
+      uuid: nanoid(),
+      title: "Create ecommerce strategy",
+      tasks: [
+        {
+          uuid: nanoid(),
+          title: "Select ecommerce strategy",
+          createdAt: new Date(),
+        },
+        {
+          uuid: nanoid(),
+          title: "Choose ecommerce platform",
+          createdAt: new Date(),
+        },
+        {
+          uuid: nanoid(),
+          title: "Develop ecommerce strategy",
+          createdAt: new Date(),
+        },
+      ],
+    },
+  ],
   {
-    uuid: nanoid(),
-    title: "Create landing page",
-    tasks: [
-      { uuid: nanoid(), title: "Create hero section", createdAt: new Date() },
-      { uuid: nanoid(), title: "Create call to action", createdAt: new Date() },
-      { uuid: nanoid(), title: "Create marketing copy", createdAt: new Date() },
-    ],
-  },
-  {
-    uuid: nanoid(),
-    title: "Create marketing strategy",
-    tasks: [
-      { uuid: nanoid(), title: "Create new strategy", createdAt: new Date() },
-      { uuid: nanoid(), title: "Create call to action", createdAt: new Date() },
-      { uuid: nanoid(), title: "Create new feature", createdAt: new Date() },
-    ],
-  },
-  {
-    uuid: nanoid(),
-    title: "Create ecommerce strategy",
-    tasks: [
-      {
-        uuid: nanoid(),
-        title: "Select ecommerce strategy",
-        createdAt: new Date(),
+    serializer: {
+      read: (val) => {
+        return JSON.parse(val).map((column: Column) => {
+          column.tasks = column.tasks.map((task: Task) => {
+            task.createdAt = new Date(task.createdAt);
+            return task;
+          });
+          return column;
+        });
       },
-      {
-        uuid: nanoid(),
-        title: "Choose ecommerce platform",
-        createdAt: new Date(),
-      },
-      {
-        uuid: nanoid(),
-        title: "Develop ecommerce strategy",
-        createdAt: new Date(),
-      },
-    ],
-  },
-]);
+      write: (val) => JSON.stringify(val),
+    },
+  }
+);
 
 const alt = useKeyModifier("Alt");
 
