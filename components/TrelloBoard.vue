@@ -77,9 +77,7 @@ const alt = useKeyModifier("Alt");
           </template>
         </draggable>
         <footer>
-          <button class="w-full bg-blue-400 py-1 rounded-sm">
-            <span class="font-semibold">+ Add task</span>
-          </button>
+          <NewTask @create="element.tasks.push($event)" />
         </footer>
       </section>
     </template>
