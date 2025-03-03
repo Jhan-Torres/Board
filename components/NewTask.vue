@@ -26,7 +26,7 @@ const createTask = (e: Event) => {
   <section>
     <textarea
       v-model="title"
-      :class="{ 'h-20': focused, 'h-10': !focused }"
+      :class="{ 'h-20': focused, 'h-8': !focused }"
       @keydown.tab="createTask"
       @keyup.enter="createTask"
       @focus="focused = true"
